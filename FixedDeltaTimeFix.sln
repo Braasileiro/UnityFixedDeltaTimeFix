@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDeltaTimeFix.Mono", "FixedDeltaTimeFix.Mono\FixedDeltaTimeFix.Mono.csproj", "{651624CD-ACB2-40A3-B839-2F41D669A1A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30CB534A-23BD-4BD7-AB28-1012833877B9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDeltaTimeFix.IL2CPP", "FixedDeltaTimeFix.IL2CPP\FixedDeltaTimeFix.IL2CPP.csproj", "{C3A435FF-3C65-4B17-8504-14B085D19A9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{651624CD-ACB2-40A3-B839-2F41D669A1A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651624CD-ACB2-40A3-B839-2F41D669A1A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651624CD-ACB2-40A3-B839-2F41D669A1A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651624CD-ACB2-40A3-B839-2F41D669A1A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A435FF-3C65-4B17-8504-14B085D19A9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A435FF-3C65-4B17-8504-14B085D19A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A435FF-3C65-4B17-8504-14B085D19A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A435FF-3C65-4B17-8504-14B085D19A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
