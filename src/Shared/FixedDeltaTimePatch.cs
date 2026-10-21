@@ -5,6 +5,8 @@ namespace UnityFixedDeltaTimeFix.Shared
 {
     public sealed class FixedDeltaTimePatch(ManualLogSource logger)
     {
+        private const int MinimumTargetFrameRate = 50;
+
         private readonly ManualLogSource _logger = logger;
         private int _lastLoggedRefreshRate = -1;
         private bool _invalidRefreshRateLogged;
@@ -29,7 +31,8 @@ namespace UnityFixedDeltaTimeFix.Shared
 
             _invalidRefreshRateLogged = false;
 
-            var fixedDeltaTime = 1f / refreshRate;
+            var targetFrameRate = GetLowestDivisorAboveMinimum(refreshRate);
+            var fixedDeltaTime = 1f / targetFrameRate;
             var previousFixedDeltaTime = Time.fixedDeltaTime;
 
             if (previousFixedDeltaTime != fixedDeltaTime)
@@ -46,11 +49,25 @@ namespace UnityFixedDeltaTimeFix.Shared
 
             if (previousFixedDeltaTime == fixedDeltaTime)
             {
-                _logger.LogInfo($"Display refresh rate is {refreshRate} Hz. Time.fixedDeltaTime is already set to {fixedDeltaTime:0.########} s.");
+                _logger.LogInfo($"Display refresh rate is {refreshRate} Hz. Target physics rate is {targetFrameRate} FPS. Time.fixedDeltaTime is already set to {fixedDeltaTime:0.########} s.");
                 return;
             }
 
-            _logger.LogInfo($"Display refresh rate is {refreshRate} Hz. Time.fixedDeltaTime changed from {previousFixedDeltaTime:0.########} s to {fixedDeltaTime:0.########} s.");
+            _logger.LogInfo($"Display refresh rate is {refreshRate} Hz. Target physics rate is {targetFrameRate} FPS. Time.fixedDeltaTime changed from {previousFixedDeltaTime:0.########} s to {fixedDeltaTime:0.########} s.");
+        }
+
+        private static int GetLowestDivisorAboveMinimum(int refreshRate)
+        {
+            // An exact divisor keeps physics updates aligned with display refreshes.
+            for (var targetFrameRate = MinimumTargetFrameRate + 1; targetFrameRate < refreshRate; targetFrameRate++)
+            {
+                if (refreshRate % targetFrameRate == 0)
+                {
+                    return targetFrameRate;
+                }
+            }
+
+            return refreshRate;
         }
     }
 }

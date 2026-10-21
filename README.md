@@ -1,8 +1,15 @@
 # UnityFixedDeltaTimeFix
 
-Adjusts Unity [Time.fixedDeltaTime](https://docs.unity3d.com/ScriptReference/Time-fixedDeltaTime.html) according to your current refresh rate.
+Adjusts Unity [Time.fixedDeltaTime](https://docs.unity3d.com/ScriptReference/Time-fixedDeltaTime.html) to a physics rate aligned with your current refresh rate.
 
-The `Time.fixedDeltaTime` calculation formula is `1f / current_refresh_rate`.
+The plugin selects the lowest exact divisor of the refresh rate above 50 FPS. For example:
+
+- 60 Hz uses 60 FPS.
+- 120 Hz uses 60 FPS.
+- 144 Hz uses 72 FPS.
+- 240 Hz uses 60 FPS.
+
+If no lower divisor is available, the refresh rate itself is used. The `Time.fixedDeltaTime` calculation formula is `1f / target_physics_rate`.
 
 This is mostly enough to solve camera stuttering problems, but it's not a definitive solution for all games that suffer from it, as it directly affects the timing of Unity's physics calculation.
 
