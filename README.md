@@ -110,8 +110,8 @@ dotnet build src/IL2CPP/UnityFixedDeltaTimeFix.IL2CPP.csproj \
 The release workflow runs when a version tag matching the version in `Directory.Build.props` is pushed. For example:
 
 ```shell
-git tag --annotate 0.1.0 --message "Release 0.1.0"
-git push origin 0.1.0
+git tag --annotate 0.1.1 --message "Release 0.1.1"
+git push origin 0.1.1
 ```
 
 The workflow publishes both projects and creates separate Mono and IL2CPP archives in the GitHub release.
