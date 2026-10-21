@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="src/IL2CPP/UnityFixedDeltaTimeFix.IL2CPP.csproj" />
+  <Project Path="src/Mono/UnityFixedDeltaTimeFix.Mono.csproj" />
+</Solution>

@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Validate version tag
+        shell: bash
+        run: |
+          project_version="$(dotnet msbuild src/IL2CPP/UnityFixedDeltaTimeFix.IL2CPP.csproj -nologo -getProperty:Version)"
+
+          if [[ "$GITHUB_REF_NAME" != "$project_version" ]]; then
+            echo "Tag '$GITHUB_REF_NAME' does not match project version '$project_version'." >&2
+            exit 1
+          fi
+
+      - name: Publish projects
+        run: |
+          dotnet publish src/IL2CPP/UnityFixedDeltaTimeFix.IL2CPP.csproj --configuration Release
+          dotnet publish src/Mono/UnityFixedDeltaTimeFix.Mono.csproj --configuration Release
+
+      - name: Package plugins
+        shell: bash
+        run: |
+          mkdir -p artifacts/release
+          zip -j "artifacts/release/UnityFixedDeltaTimeFix.IL2CPP-${GITHUB_REF_NAME}.zip" \
+            artifacts/publish/UnityFixedDeltaTimeFix.IL2CPP/release/UnityFixedDeltaTimeFix.IL2CPP.dll
+          zip -j "artifacts/release/UnityFixedDeltaTimeFix.Mono-${GITHUB_REF_NAME}.zip" \
+            artifacts/publish/UnityFixedDeltaTimeFix.Mono/release/UnityFixedDeltaTimeFix.Mono.dll
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" artifacts/release/*.zip \
+            --verify-tag \
+            --generate-notes \
+            --title "$GITHUB_REF_NAME"

@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>embedded</DebugType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+
+    <UnityIl2CppInteropDir Condition="'$(UnityIl2CppInteropDir)' == ''">$(MSBuildThisFileDirectory)../../deps/Unity/2020.3.49f1/IL2CPP</UnityIl2CppInteropDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>UnityFixedDeltaTimeFix.IL2CPP</RootNamespace>
+    <AssemblyTitle>Controls Unity's Time.fixedDeltaTime operation.</AssemblyTitle>
+    <Company>I love Mahou Shoujo Lyrical Nanoha</Company>
+    <Copyright>Brasileiro</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>$(UnityIl2CppInteropDir)/Il2Cppmscorlib.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="Il2CppSystem">
+      <HintPath>$(UnityIl2CppInteropDir)/Il2CppSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>$(UnityIl2CppInteropDir)/Il2CppSystem.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(UnityIl2CppInteropDir)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="../Shared/**/*">
+      <Link>Shared\%(RecursiveDir)/%(FileName)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <Target
+    Name="ValidateUnityIl2CppInteropAssemblies"
+    BeforeTargets="ResolveAssemblyReferences"
+    Condition="'$(DesignTimeBuild)' != 'true'"
+  >
+    <Error
+      Condition="!Exists('$(UnityIl2CppInteropDir)/Il2Cppmscorlib.dll') Or !Exists('$(UnityIl2CppInteropDir)/Il2CppSystem.dll') Or !Exists('$(UnityIl2CppInteropDir)/Il2CppSystem.Core.dll') Or !Exists('$(UnityIl2CppInteropDir)/UnityEngine.CoreModule.dll')"
+      Text="Unity IL2CPP interop assemblies were not found. Copy the required assemblies from the game's BepInEx/interop directory to '$(UnityIl2CppInteropDir)' or set UnityIl2CppInteropDir."
+    />
+  </Target>
+</Project>

@@ -1,0 +1,13 @@
+[tools]
+dotnet = "10"
+
+[tasks.build]
+description = "Build"
+run = "dotnet build UnityFixedDeltaTimeFix.slnx --maxcpucount:1"
+
+[tasks.publish]
+description = "Publish"
+run = """
+dotnet publish src/IL2CPP/UnityFixedDeltaTimeFix.IL2CPP.csproj --configuration Release
+dotnet publish src/Mono/UnityFixedDeltaTimeFix.Mono.csproj --configuration Release
+"""
